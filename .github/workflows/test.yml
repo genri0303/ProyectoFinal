@@ -6,18 +6,20 @@ on:
       - main  # Reemplaza "main" con el nombre de tu rama principal
 
 jobs:
-  test-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout código
-      uses: actions/checkout@v2
+      - name: Clona el repositorio
+        uses: actions/checkout@v3
 
-    - name: Instalar dependencias
-      run: npm install
+      - name: configura nodejs  
+        uses: actions/setup-node@v3
+        with:
+            node-version: '18' 
 
-    - name: Ejecutar pruebas
-      run: npm test
+      - name: Instala Surge       
+        run: npm install --global surge
 
 - name: Publicar pagina
         run: surge --project ./ --domain ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_API_KEY }}
