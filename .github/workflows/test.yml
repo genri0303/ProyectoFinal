@@ -1,0 +1,26 @@
+name: Prueba Unitaria y Despliegue
+
+on:
+  push:
+    branches:
+      - main  # Reemplaza "main" con el nombre de tu rama principal
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v2
+
+    - name: Instalar dependencias
+      run: npm install
+
+    - name: Ejecutar pruebas
+      run: npm test
+
+    - name: Desplegar a Surge
+      uses: appleboy/surge-action@master
+      with:
+        surge: ${{ secrets.SURGE_LOGIN }}
+        project: ./  # Puede que necesites ajustar esta ruta dependiendo de la ubicación de tu página web
